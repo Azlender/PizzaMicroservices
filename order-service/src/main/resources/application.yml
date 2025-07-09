@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pizza
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: order_service
+        format_sql: true
+    show-sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+    default_schema: order_service
+
+server:
+  port: 8081
+
+# Конфигурация для вызова menu-service
+menu:
+  service:
+    url: http://localhost:8080/menu
+
+kitchen:
+  service:
+    url: http://localhost:8082/kitchen

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <!-- Создание схемы kitchen_service -->
+    <changeSet id="create-schema-kitchen-service" author="me">
+        <sql>CREATE SCHEMA IF NOT EXISTS kitchen_service;</sql>
+    </changeSet>
+
+    <!-- Таблица kitchen_orders -->
+    <changeSet id="create-kitchen-orders" author="me">
+        <createTable schemaName="kitchen_service" tableName="kitchen_orders">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Индекс по полю status -->
+    <changeSet id="index-kitchen-orders-status" author="me">
+        <createIndex schemaName="kitchen_service"
+                     tableName="kitchen_orders"
+                     indexName="idx_kitchen_orders_status">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
