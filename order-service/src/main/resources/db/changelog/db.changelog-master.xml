@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="me">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="order_service" tableName="status"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="order_service" tableName="status">
+            <column name="status_id" type="SMALLINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="status_name" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="me">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="order_service" tableName="orders"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="order_service" tableName="orders">
+            <column name="order_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_date" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="SMALLINT">
+                <constraints nullable="false" foreignKeyName="fk_orders_status"
+                             referencedTableName="status"
+                             referencedColumnNames="status_id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="me">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="order_service" tableName="order_items"/>
+            </not>
+        </preConditions>
+        <createTable schemaName="order_service" tableName="order_items">
+            <column name="order_items_id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dish_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_items_order"
+                             referencedTableName="orders"
+                             referencedColumnNames="order_id"/>
+            </column>
+            <column name="quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DECIMAL(8,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dish_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
