@@ -3,6 +3,7 @@ package ru.academy.pizza.order.controller;
 import ru.academy.pizza.order.dto.CreateOrderRequest;
 import ru.academy.pizza.order.dto.CreateOrderResponse;
 import ru.academy.pizza.order.dto.OrderResponse;
+import ru.academy.pizza.order.dto.StatusUpdateDto;
 import ru.academy.pizza.order.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,10 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
+    }
+
+    @PostMapping("/{id}/status")
+    public void updateStatus(@PathVariable Long id, @RequestBody StatusUpdateDto statusDto) {
+        orderService.updateOrderStatus(id, statusDto.status());
     }
 }

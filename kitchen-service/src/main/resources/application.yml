@@ -1,3 +1,10 @@
+kitchen:
+  max-concurrent-orders: 3
+
+server:
+  port: 8082
+
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/pizza
@@ -9,22 +16,17 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        default_schema: order_service
+        default_schema: kitchen_service
         format_sql: true
     show-sql: true
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
     enabled: true
-    default_schema: order_service
+    default_schema: kitchen_service
 
-server:
-  port: 8081
+
 
 # Конфигурация для вызова menu-service
-menu:
+order:
   service:
-    url: http://localhost:8080/menu
-
-kitchen:
-  service:
-    url: http://localhost:8082/kitchen
+    url: http://localhost:8081/orders/

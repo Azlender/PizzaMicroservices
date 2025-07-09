@@ -1,4 +1,4 @@
-package ru.academy.pizza.order.client;
+package ru.academy.pizza.order.dto;
 
 import java.math.BigDecimal;
 
